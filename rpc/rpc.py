@@ -29,7 +29,7 @@ class XMMRPC(object):
 
         desc = resp['type']
 
-        if resp['type'] == 'unsolicited':
+        if desc == 'unsolicited':
             name = rpc_unsol_table.xmm7360_unsol.get(
                 resp['code'], '0x%02x' % resp['code'])
             desc = 'unsolicited: %s' % name
@@ -43,11 +43,7 @@ class XMMRPC(object):
         if isinstance(cmd, str):
             cmd = rpc_call_ids.call_ids[cmd]
 
-        if is_async:
-            tid = 0x11000101
-        else:
-            tid = 0
-
+        tid = 0x11000101 if is_async else 0
         tid_word = 0x11000100 | tid
 
         total_length = len(body) + 16
@@ -163,7 +159,7 @@ def take_asn_int(data):
     assert data.pop(0) == 0x02
     l_data = data.pop(0)
     val = 0
-    for i in range(l_data):
+    for _ in range(l_data):
         val <<= 8
         val |= data.pop(0)
     return val
@@ -190,7 +186,7 @@ def take_string(data):
         assert count == (valid + padding)
 
     payload = data[:valid]
-    for i in range(valid + padding):
+    for _ in range(valid + padding):
         data.pop(0)  # eek
     return payload
 

@@ -45,9 +45,7 @@ class XMMMux(object):
         packet_data = b'\0' * 16 + packet_data
         p.append_tag(b'ADBH', packet_data)
         p.append_tag(b'ADTH', struct.pack('<LLL', 0, 0x10, len(packet_data)))
-        # p.append_tag(b'QLTH', b'\0'*12)
-        pkt = p.get_packet()
-        return pkt
+        return p.get_packet()
 
     def __init__(self, path='/dev/xmm0/mux'):
         self.fp = os.open(path, os.O_RDWR | os.O_SYNC)
