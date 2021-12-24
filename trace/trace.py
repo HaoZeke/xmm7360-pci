@@ -93,9 +93,9 @@ def handle_packet(packet):
             payload = packet[0xd:]
         else:
             return
-        if typ == 0x10:  # print
+        if typ == 0x10:
             log(payload.decode('ascii', errors='replace'))
-        if typ == 0x11:  # printf
+        elif typ == 0x11:
             log(decode_printf(payload))
 
 

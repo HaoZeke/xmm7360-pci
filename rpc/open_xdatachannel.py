@@ -71,9 +71,9 @@ if status == 0xffffffff:
                        rpc.pack_UtaMsNetAttachReq(), is_async=True)
     _, status = rpc.unpack('nn', attach['body'])
 
-    if status == 0xffffffff:
-        logging.error("Attach failed again, giving up")
-        sys.exit(1)
+if status == 0xffffffff:
+    logging.error("Attach failed again, giving up")
+    sys.exit(1)
 
 while True:
     ip_addr, dns_values = rpc.get_ip(r)
